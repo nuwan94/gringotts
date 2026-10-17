@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      spring:
+        patterns: ["org.springframework*"]
+      testing:
+        patterns: ["org.testcontainers*", "com.tngtech.archunit*", "org.junit*"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker-compose
+    directory: /deploy/compose
+    schedule:
+      interval: weekly
