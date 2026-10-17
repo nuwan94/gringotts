@@ -1,0 +1,108 @@
+{
+  "realm": "gringotts",
+  "displayName": "Gringotts Wizarding Bank",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 300,
+  "roles": {
+    "realm": [
+      { "name": "WIZARD", "description": "Bank customer" },
+      { "name": "GOBLIN_TELLER", "description": "Front-desk staff: accounts, transfers, exchange" },
+      { "name": "GOBLIN_VAULT_KEEPER", "description": "Approves and escorts vault visits" },
+      { "name": "HEAD_GOBLIN", "description": "Administrator" }
+    ]
+  },
+  "clientScopes": [
+    {
+      "name": "gringotts-roles",
+      "description": "Realm roles as a flat 'roles' claim, mapped to Spring Security authorities",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "false" },
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "claim.name": "roles",
+            "multivalued": "true",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "gringotts-web",
+      "name": "Gringotts Online",
+      "description": "Browser front end: public client, authorization code + PKCE",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": ["http://localhost:*"],
+      "webOrigins": ["+"],
+      "attributes": { "pkce.code.challenge.method": "S256" },
+      "defaultClientScopes": ["profile", "email", "gringotts-roles"]
+    },
+    {
+      "clientId": "gringotts-dev-cli",
+      "name": "Developer CLI",
+      "description": "LOCAL ONLY. Password grant so curl/HTTP-client scripts can fetch tokens.",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "defaultClientScopes": ["profile", "email", "gringotts-roles"]
+    }
+  ],
+  "users": [
+    {
+      "username": "harry.potter",
+      "email": "harry.potter@hogwarts.wiz",
+      "emailVerified": true,
+      "firstName": "Harry",
+      "lastName": "Potter",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "alohomora", "temporary": false }],
+      "realmRoles": ["WIZARD"]
+    },
+    {
+      "username": "hermione.granger",
+      "email": "hermione.granger@hogwarts.wiz",
+      "emailVerified": true,
+      "firstName": "Hermione",
+      "lastName": "Granger",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "alohomora", "temporary": false }],
+      "realmRoles": ["WIZARD"]
+    },
+    {
+      "username": "griphook",
+      "email": "griphook@gringotts.wiz",
+      "emailVerified": true,
+      "firstName": "Griphook",
+      "lastName": "Goblin",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "alohomora", "temporary": false }],
+      "realmRoles": ["GOBLIN_TELLER", "GOBLIN_VAULT_KEEPER"]
+    },
+    {
+      "username": "ragnok",
+      "email": "ragnok@gringotts.wiz",
+      "emailVerified": true,
+      "firstName": "Ragnok",
+      "lastName": "Goblin",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "alohomora", "temporary": false }],
+      "realmRoles": ["HEAD_GOBLIN"]
+    }
+  ]
+}
