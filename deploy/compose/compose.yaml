@@ -158,7 +158,7 @@ services:
   # Grafana + Prometheus + Loki + Tempo + OpenTelemetry collector in one container.
   # Services export OTLP to localhost:4317 (gRPC) / 4318 (HTTP). Grafana on :3000.
   lgtm:
-    image: grafana/otel-lgtm:0.37.0
+    image: grafana/otel-lgtm:0.38.1
     profiles: [observability]
     ports:
       - "3000:3000"
