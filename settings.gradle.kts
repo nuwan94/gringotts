@@ -21,4 +21,5 @@ include(
     "platform:common-web",
     "platform:common-events",
     "platform:common-test",
+    "services:wizard-registry",
 )
