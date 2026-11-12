@@ -10,6 +10,8 @@ dependencies {
     val cloudBom = platform(libs.findLibrary("spring-cloud-dependencies").get())
     implementation(cloudBom)
     testImplementation(cloudBom)
+    // developmentOnly doesn't extend implementation, so it needs the Boot BOM too.
+    developmentOnly(platform(libs.findLibrary("spring-boot-dependencies").get()))
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
